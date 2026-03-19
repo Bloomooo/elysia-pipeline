@@ -73,24 +73,24 @@ describe("POST tests", () => {
         expect(data.id).toBeDefined();
     });
 
-    it("7. POST missing field -> 400", async () => {
+    it("7. POST missing field -> 422", async () => {
         const res = await request(base, {
             method: "POST",
             body: JSON.stringify({}),
             headers: { "Content-Type": "application/json" }
         });
 
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(422);
     });
 
-    it("8. POST invalid grade -> 400", async () => {
+    it("8. POST invalid grade -> 422", async () => {
         const res = await request(base, {
             method: "POST",
             body: JSON.stringify({ ...validStudent, grade: 25 }),
             headers: { "Content-Type": "application/json" }
         });
 
-        expect(res.status).toBe(400);
+        expect(res.status).toBe(422);
     });
 
     it("9. POST duplicate email -> 409", async () => {

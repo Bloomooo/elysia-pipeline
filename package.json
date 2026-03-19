@@ -8,6 +8,7 @@
     "lint:fix": "eslint . --ext .ts,.js --fix"
   },
   "dependencies": {
+    "@elysiajs/openapi": "^1.4.14",
     "elysia": "^1.4.28"
   },
   "devDependencies": {
