@@ -44,6 +44,33 @@ export const resetStudents = () => {
     nextId = 6;
 };
 
+export const getStats = () => {
+    const totalStudents = students.length;
+
+    const averageGrade =
+        totalStudents === 0
+            ? 0
+            : Number(
+                (students.reduce((sum, s) => sum + s.grade, 0) / totalStudents).toFixed(2)
+            );
+
+    const studentsByField = students.reduce((acc: any, s) => {
+        acc[s.field] = (acc[s.field] || 0) + 1;
+        return acc;
+    }, {});
+
+    const bestStudent = students.reduce((best, s) =>
+        s.grade > best.grade ? s : best
+    );
+
+    return {
+        totalStudents,
+        averageGrade,
+        studentsByField,
+        bestStudent,
+    };
+};
+
 
 export const isValidStudent = (s: Omit<Student, "id">) => {
     return (

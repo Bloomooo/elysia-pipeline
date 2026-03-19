@@ -76,3 +76,7 @@ export const resetStudents = (ctx: Context) => {
     ctx.body = "Students reset";
     return ctx.body;
 };
+
+export const getStats = (ctx: Context) => {
+    return studentService.getStats();
+};
