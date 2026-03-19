@@ -17,6 +17,11 @@ export const getStudents = (ctx: Context) => {
 
 export const getStudentById = (ctx: Context)  => {
     const { id } = ctx.params;
+    if (isNaN(parseInt(id))) {
+        ctx.set.status = 400;
+        ctx.body = { message: "ID invalide" };
+        return ctx.body;
+    }
     const student = studentService.getStudentById(parseInt(id));
     ctx.body = student;
     ctx.set.status = 200;
