@@ -2,8 +2,6 @@ import { Elysia, t } from "elysia";
 import * as studentController from "../../controllers/student/student.controller";
 import {StudentSchema} from "../../models/student.model";
 
-const ErrorSchema = t.Object({ message: t.String() });
-
 export const studentRoutes = new Elysia({ prefix: "/students" })
     .get("/", (ctx) => studentController.getStudents(ctx), {
         query: t.Object({
