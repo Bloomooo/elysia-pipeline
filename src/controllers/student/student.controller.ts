@@ -98,7 +98,9 @@ export const resetStudents = (ctx: Context) => {
 };
 
 export const getStats = (ctx: Context) => {
-    return studentService.getStats();
+    ctx.set.status = 200;
+    ctx.body = studentService.getStats();
+    return ctx.body;
 };
 
 export const searchStudents = (ctx: Context) => {
