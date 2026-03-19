@@ -5,7 +5,6 @@ on:
     branches:
       - main
       - develop
-
   pull_request:
     branches:
       - main
@@ -13,16 +12,13 @@ on:
 
 jobs:
   build:
-    name: Build & Test
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [18, 20]
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Setup Node
         uses: actions/setup-node@v3
@@ -30,10 +26,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Bun
-        run: |
-          curl -fsSL https://bun.sh/install | bash
-          echo "$HOME/.bun/bin" >> $GITHUB_PATH
-          bun --version
+        run: curl -fsSL https://bun.sh/install | bash
+
+      - name: Add Bun to PATH
+        run: echo "$HOME/.bun/bin" >> $GITHUB_PATH
+
+      - name: Check Bun version
+        run: bun --version
 
       - name: Install dependencies
         run: bun install
