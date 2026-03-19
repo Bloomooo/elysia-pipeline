@@ -48,3 +48,63 @@ describe("GET tests", () => {
         expect(res.status).toBe(400);
     });
 });
+
+describe("POST tests", () => {
+
+    const validStudent = {
+        firstName: "Test",
+        lastName: "User",
+        email: "test@test.com",
+        grade: 15,
+        field: "informatique"
+    };
+
+    it("6. POST valid -> 201", async () => {
+        const res = await request(base, {
+            method: "POST",
+            body: JSON.stringify(validStudent),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        const data = await res.json();
+
+        expect(res.status).toBe(201);
+        expect(data.id).toBeDefined();
+    });
+
+    it("7. POST missing field -> 400", async () => {
+        const res = await request(base, {
+            method: "POST",
+            body: JSON.stringify({}),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        expect(res.status).toBe(400);
+    });
+
+    it("8. POST invalid grade -> 400", async () => {
+        const res = await request(base, {
+            method: "POST",
+            body: JSON.stringify({ ...validStudent, grade: 25 }),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        expect(res.status).toBe(400);
+    });
+
+    it("9. POST duplicate email -> 409", async () => {
+        await request(base, {
+            method: "POST",
+            body: JSON.stringify(validStudent),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        const res = await request(base, {
+            method: "POST",
+            body: JSON.stringify(validStudent),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        expect(res.status).toBe(409);
+    });
+});

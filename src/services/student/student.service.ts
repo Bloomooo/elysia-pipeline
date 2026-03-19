@@ -82,6 +82,17 @@ export const searchStudents = (query: string) => {
 };
 
 export const isValidStudent = (s: Omit<Student, "id">) => {
+    if (
+        !s ||
+        !s.firstName ||
+        !s.lastName ||
+        !s.email ||
+        s.grade === undefined ||
+        !s.field
+    ) {
+        return false;
+    }
+
     return (
         s.firstName.length >= 2 &&
         s.lastName.length >= 2 &&

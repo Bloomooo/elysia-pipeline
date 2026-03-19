@@ -41,9 +41,11 @@ export const createStudent = (ctx: Context) => {
         return ctx.body;
     }
 
-    if (studentService.getStudentById(student.id) !== undefined){
+    const exists = studentService.getAllStudents().some(s => s.email === student.email);
+    if (exists) {
         ctx.set.status = 409;
-        ctx.body = "Student already exists";
+        ctx.body = { message: "Student already exists" };
+        return ctx.body;
     }
 
     const createdStudent = studentService.createStudent(student);
