@@ -153,3 +153,26 @@ describe("DELETE tests", () => {
         expect(res.status).toBe(404);
     });
 });
+
+
+describe("Stats & Search", () => {
+
+    it("14. GET /students/stats", async () => {
+        const res = await request(`${base}/stats`);
+        const data = await res.json();
+
+        expect(res.status).toBe(200);
+        expect(data.totalStudents).toBeDefined();
+        expect(data.averageGrade).toBeDefined();
+        expect(data.studentsByField).toBeDefined();
+        expect(data.bestStudent).toBeDefined();
+    });
+
+    it("15. GET /students/search", async () => {
+        const res = await request(`${base}/search?q=ali`);
+        const data = await res.json();
+
+        expect(res.status).toBe(200);
+        expect(Array.isArray(data)).toBe(true);
+    });
+});
