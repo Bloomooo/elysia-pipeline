@@ -17,6 +17,11 @@ export const getStudents = (ctx: Context) => {
 
 export const getStudentById = (ctx: Context)  => {
     const { id } = ctx.params;
+    if (isNaN(parseInt(id))) {
+        ctx.set.status = 400;
+        ctx.body = { message: "ID invalide" };
+        return ctx.body;
+    }
     const student = studentService.getStudentById(parseInt(id));
     ctx.body = student;
     ctx.set.status = 200;
@@ -36,9 +41,11 @@ export const createStudent = (ctx: Context) => {
         return ctx.body;
     }
 
-    if (studentService.getStudentById(student.id) !== undefined){
+    const exists = studentService.getAllStudents().some(s => s.email === student.email);
+    if (exists) {
         ctx.set.status = 409;
-        ctx.body = "Student already exists";
+        ctx.body = { message: "Student already exists" };
+        return ctx.body;
     }
 
     const createdStudent = studentService.createStudent(student);
@@ -50,22 +57,35 @@ export const createStudent = (ctx: Context) => {
 export const updateStudent = (ctx: Context) => {
     const { id } = ctx.params;
     const student = ctx.body as Student;
+    if (isNaN(parseInt(id))) {
+        ctx.set.status = 400;
+        ctx.body = { message: "ID invalide" };
+        return ctx.body;
+    }
 
-    studentService.updateStudent(parseInt(id), student);
-    ctx.set.status = 204;
-    ctx.body = "Student updated";
+    const updated = studentService.updateStudent(parseInt(id), student);
+
+    if (!updated) {
+        ctx.set.status = 404;
+        ctx.body = { message: "Student not found" };
+        return ctx.body;
+    }
+    ctx.set.status = 200;
+    ctx.body = updated;
+    return ctx.body;
 }
 
 export const deleteStudent = (ctx: Context) => {
     const { id } = ctx.params;
     const student = studentService.getStudentById(parseInt(id));
-    if(student === undefined) {
+    if(!student) {
         ctx.set.status = 404;
         ctx.body = "Student not found";
+        return ctx.body;
     }
 
     studentService.deleteStudent(parseInt(id));
-    ctx.set.status = 204;
+    ctx.set.status = 200;
     ctx.body = "Student deleted";
     return ctx.body;
 }
