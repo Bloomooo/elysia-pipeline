@@ -5,13 +5,13 @@ import {Context} from "elysia";
 export const getStudents = (ctx: Context) => {
     const students = studentService.getAllStudents();
 
-    ctx.body = students;
+    const page = parseInt(ctx.query.page as string) || 1;
+    const limit = parseInt(ctx.query.limit as string) || 10;
+    const start = (page - 1) * limit;
+    const end = start + limit;
+
+    ctx.body = students.slice(start, end);
     ctx.set.status = 200;
-
-    if (students.length === 0) {
-        ctx.set.status = 404;
-    }
-
     return ctx.body;
 };
 
