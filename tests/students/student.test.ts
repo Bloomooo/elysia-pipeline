@@ -108,3 +108,29 @@ describe("POST tests", () => {
         expect(res.status).toBe(409);
     });
 });
+
+describe("PUT tests", () => {
+
+    it("10. PUT valid -> 200", async () => {
+        const res = await request(`${base}/1`, {
+            method: "PUT",
+            body: JSON.stringify({ firstName: "Updated" }),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        const data = await res.json();
+
+        expect(res.status).toBe(200);
+        expect(data.firstName).toBe("Updated");
+    });
+
+    it("11. PUT not found -> 404", async () => {
+        const res = await request(`${base}/999`, {
+            method: "PUT",
+            body: JSON.stringify({ firstName: "Test" }),
+            headers: { "Content-Type": "application/json" }
+        });
+
+        expect(res.status).toBe(404);
+    });
+});

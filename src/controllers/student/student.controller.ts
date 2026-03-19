@@ -57,10 +57,22 @@ export const createStudent = (ctx: Context) => {
 export const updateStudent = (ctx: Context) => {
     const { id } = ctx.params;
     const student = ctx.body as Student;
+    if (isNaN(parseInt(id))) {
+        ctx.set.status = 400;
+        ctx.body = { message: "ID invalide" };
+        return ctx.body;
+    }
 
-    studentService.updateStudent(parseInt(id), student);
-    ctx.set.status = 204;
-    ctx.body = "Student updated";
+    const updated = studentService.updateStudent(parseInt(id), student);
+
+    if (!updated) {
+        ctx.set.status = 404;
+        ctx.body = { message: "Student not found" };
+        return ctx.body;
+    }
+    ctx.set.status = 200;
+    ctx.body = updated;
+    return ctx.body;
 }
 
 export const deleteStudent = (ctx: Context) => {
