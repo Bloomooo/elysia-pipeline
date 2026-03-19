@@ -134,3 +134,22 @@ describe("PUT tests", () => {
         expect(res.status).toBe(404);
     });
 });
+
+describe("DELETE tests", () => {
+
+    it("12. DELETE valid -> 200", async () => {
+        const res = await request(`${base}/1`, {
+            method: "DELETE"
+        });
+
+        expect(res.status).toBe(200);
+    });
+
+    it("13. DELETE not found -> 404", async () => {
+        const res = await request(`${base}/999`, {
+            method: "DELETE"
+        });
+
+        expect(res.status).toBe(404);
+    });
+});
