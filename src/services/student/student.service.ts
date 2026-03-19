@@ -1,6 +1,6 @@
-import {Student} from "../../models/student.model";
+import {Field, Student} from "../../models/student.model";
 
-let initialStudents: Student[] = [
+const initialStudents: Student[] = [
     { id: 1, firstName: "Alice", lastName: "Dupont", email: "alice@test.com", grade: 15, field: "informatique" },
     { id: 2, firstName: "Bob", lastName: "Martin", email: "bob@test.com", grade: 12, field: "mathématiques" },
     { id: 3, firstName: "Charlie", lastName: "Durand", email: "charlie@test.com", grade: 18, field: "physique" },
@@ -54,10 +54,11 @@ export const getStats = () => {
                 (students.reduce((sum, s) => sum + s.grade, 0) / totalStudents).toFixed(2)
             );
 
-    const studentsByField = students.reduce((acc: any, s) => {
+    const studentsByField: Record<Field, number> = students.reduce((acc, s) => {
         acc[s.field] = (acc[s.field] || 0) + 1;
         return acc;
-    }, {});
+    }, {} as Record<Field, number>);
+
 
     const bestStudent = students.reduce((best, s) =>
         s.grade > best.grade ? s : best
