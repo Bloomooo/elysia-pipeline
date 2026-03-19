@@ -80,3 +80,14 @@ export const resetStudents = (ctx: Context) => {
 export const getStats = (ctx: Context) => {
     return studentService.getStats();
 };
+
+export const searchStudents = (ctx: Context) => {
+    const query = ctx.query.q as string;
+
+    if (!query || query.trim() === "") {
+        ctx.set.status = 400;
+        return { message: "Le paramètre 'q' est requis" };
+    }
+
+    return studentService.searchStudents(query);
+};

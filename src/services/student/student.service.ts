@@ -71,6 +71,15 @@ export const getStats = () => {
     };
 };
 
+export const searchStudents = (query: string) => {
+    const q = query.toLowerCase();
+
+    return students.filter(
+        (s) =>
+            s.firstName.toLowerCase().includes(q) ||
+            s.lastName.toLowerCase().includes(q)
+    );
+};
 
 export const isValidStudent = (s: Omit<Student, "id">) => {
     return (
