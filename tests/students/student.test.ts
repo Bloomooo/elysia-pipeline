@@ -15,17 +15,18 @@ describe("GET tests", () => {
 
     it("1. GET /students -> 200 + array", async () => {
         const res = await request(base);
-        const data = await res.json();
+        const body = await res.json();
 
         expect(res.status).toBe(200);
-        expect(Array.isArray(data)).toBe(true);
+        expect(Array.isArray(body.data)).toBe(true);
     });
 
     it("2. GET /students -> initial students", async () => {
         const res = await request(base);
-        const data = await res.json();
+        const body = await res.json();
 
-        expect(data.length).toBe(5);
+        expect(body.data.length).toBe(5);
+        expect(body.total).toBe(5);
     });
 
     it("3. GET /students/:id valid", async () => {
