@@ -3,14 +3,32 @@ import {Student} from "../../models/student.model";
 import {Context} from "elysia";
 
 export const getStudents = (ctx: Context) => {
-    const students = studentService.getAllStudents();
+    let students = studentService.getAllStudents();
 
-    ctx.body = students;
-    ctx.set.status = 200;
+    const page = Math.max(parseInt(ctx.query.page as string) || 1, 1);
+    const limit = Math.max(parseInt(ctx.query.limit as string) || 10, 1);
+    const start = (page - 1) * limit;
+    const end = start + limit;
 
-    if (students.length === 0) {
-        ctx.set.status = 404;
+    const sort = ctx.query.sort as keyof Student;
+    const order = (ctx.query.order as string)?.toLowerCase() || "asc";
+    const validSortFields: (keyof Student)[] = ["id", "firstName", "lastName", "email", "grade", "field"];
+
+    if (sort && validSortFields.includes(sort) && ["asc", "desc"].includes(order)) {
+        students = students.sort((a, b) => {
+            if (a[sort] < b[sort]) return order === "asc" ? -1 : 1;
+            if (a[sort] > b[sort]) return order === "asc" ? 1 : -1;
+            return 0;
+        });
     }
+
+    ctx.body = {
+        page,
+        limit,
+        total: students.length,
+        data: students.slice(start, end),
+    };
+    ctx.set.status = 200;
 
     return ctx.body;
 };
