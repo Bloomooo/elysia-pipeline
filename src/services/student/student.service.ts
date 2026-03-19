@@ -37,6 +37,8 @@ export const updateStudent = (id: number, data: Partial<Student>) => {
 
     return updatedStudent;
 };
+export const deleteStudent = (id: number) => students = students.filter(student => student.id !== id);
+
 export const resetStudents = () => {
     students = structuredClone(initialStudents);
     nextId = 6;

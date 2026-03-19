@@ -56,6 +56,20 @@ export const updateStudent = (ctx: Context) => {
     ctx.body = "Student updated";
 }
 
+export const deleteStudent = (ctx: Context) => {
+    const { id } = ctx.params;
+    const student = studentService.getStudentById(parseInt(id));
+    if(student === undefined) {
+        ctx.set.status = 404;
+        ctx.body = "Student not found";
+    }
+
+    studentService.deleteStudent(parseInt(id));
+    ctx.set.status = 204;
+    ctx.body = "Student deleted";
+    return ctx.body;
+}
+
 export const resetStudents = (ctx: Context) => {
     studentService.resetStudents();
     ctx.set.status = 204;
