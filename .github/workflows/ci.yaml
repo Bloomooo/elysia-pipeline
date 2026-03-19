@@ -40,5 +40,5 @@ jobs:
       - name: Run ESLint
         run: bun lint
 
-      - name: Run Tests
-        run: bun test
+      - name: Run Tests with Coverage
+        run: bun test --coverage
