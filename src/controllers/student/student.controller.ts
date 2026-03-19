@@ -47,6 +47,15 @@ export const createStudent = (ctx: Context) => {
     return ctx.body;
 }
 
+export const updateStudent = (ctx: Context) => {
+    const { id } = ctx.params;
+    const student = ctx.body as Student;
+
+    studentService.updateStudent(parseInt(id), student);
+    ctx.set.status = 204;
+    ctx.body = "Student updated";
+}
+
 export const resetStudents = (ctx: Context) => {
     studentService.resetStudents();
     ctx.set.status = 204;

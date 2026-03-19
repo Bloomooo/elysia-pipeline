@@ -20,6 +20,23 @@ export const createStudent = (student: Student) => {
     return student;
 }
 
+export const updateStudent = (id: number, data: Partial<Student>) => {
+    let updatedStudent = null;
+
+    students = students.map((s) => {
+        if (s.id === id) {
+            updatedStudent = {
+                ...s,
+                ...data,
+                id: s.id
+            };
+            return updatedStudent;
+        }
+        return s;
+    });
+
+    return updatedStudent;
+};
 export const resetStudents = () => {
     students = structuredClone(initialStudents);
     nextId = 6;
