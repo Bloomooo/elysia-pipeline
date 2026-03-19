@@ -12,8 +12,27 @@ let students: Student[] = structuredClone(initialStudents);
 let nextId = 6;
 
 export const getAllStudents = () => students;
+export const getStudentById = (id: number) => students.find(student => student.id === id);
+export const createStudent = (student: Student) => {
+    student.id = nextId;
+    students.push(student);
+    nextId++;
+    return student;
+}
 
 export const resetStudents = () => {
     students = structuredClone(initialStudents);
     nextId = 6;
+};
+
+
+export const isValidStudent = (s: Omit<Student, "id">) => {
+    return (
+        s.firstName.length >= 2 &&
+        s.lastName.length >= 2 &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.email) &&
+        s.grade >= 0 &&
+        s.grade <= 20 &&
+        ["informatique", "mathématiques", "physique", "chimie"].includes(s.field)
+    );
 };
