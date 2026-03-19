@@ -3,18 +3,22 @@
   "version": "1.0.50",
   "scripts": {
     "test": "bun tests",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "lint": "eslint . --ext .ts,.js",
+    "lint:fix": "eslint . --ext .ts,.js --fix"
   },
   "dependencies": {
+    "@elysiajs/openapi": "^1.4.14",
     "elysia": "^1.4.28"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/bun": "latest",
     "bun-types": "latest",
     "eslint": "^10.0.3",
     "globals": "^17.4.0",
-    "typescript-eslint": "^8.57.1",
-    "@types/bun": "latest"
+    "jiti": "^2.6.1",
+    "typescript-eslint": "^8.57.1"
   },
   "module": "src/index.js",
   "type": "module",

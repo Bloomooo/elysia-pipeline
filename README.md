@@ -1,3 +1,4 @@
+![CI](https://github.com/Bloomooo/elysia-pipeline/actions/workflows/ci.yml/badge.svg)
 # Elysia with Bun runtime
 
 ## Getting Started
